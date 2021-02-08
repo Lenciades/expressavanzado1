@@ -13,10 +13,9 @@ app.get('/api/productos',(req,res)=>{
         res.send(msgError)
         res.sendStatus(404)
     }
-    res.send(listado);
+    res.send(JSON.stringify(listado));
 })
 app.get('/api/productos/:id',(req,res)=>{
-    console.log(req.params.id)
     if(req.params.id>listado.length){
         res.send(msgError)
     }
