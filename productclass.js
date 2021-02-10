@@ -9,5 +9,9 @@ let producto = class Product{
         this.id=id++;
         return this;
     }
+    changeProduct(reqId){
+        this.id=reqId;
+        return this;
+    }
 } 
 module.exports=producto
