@@ -27,7 +27,7 @@ router.get('/productos/:id',(req,res)=>{
         res.send(msgError)
     }
     else{
-        res.send(JSON.stringify(listado.filter((e)=>e.id===req.params.id)))
+        res.send(JSON.stringify(listado[idEncontrado(req.params.id)]))
     }
 })
 router.post('/productos',(req,res)=>{
@@ -35,17 +35,14 @@ router.post('/productos',(req,res)=>{
 })
 
 router.put('/productos/:id',(req,res)=>{
-    var cambioProducto=new Producto(...Object.values(req.body))
-    console.log(`+ ${JSON.stringify(listado[req.params.id])}`)
-    listado[req.params.id]=cambioProducto.changeProduct(req.params.id)
-    console.log(`+ ${JSON.stringify(listado[req.params.id])}`)
+    var productoCambiado=new Producto(...Object.values(req.body))
+    listado[idEncontrado(req.params.id)]=productoCambiado.replaceId(req.params.id)
     res.send(JSON.stringify(listado[req.params.id]))
 })
 
 router.delete('/productos/:id',(req,res)=>{
-    res.send(JSON.stringify(listado[req.params.id])+` BORRADO`)
-    console.log(`- ${JSON.stringify(listado[req.params.id])}`)
-    listado[req.params.id]={title: "Eliminado"};
+    res.send(JSON.stringify({title: "Eliminado"}))
+    listado[idEncontrado(req.params.id)]={title: "Eliminado"};
 })
 app.post('/index.html',(req,res)=>{
     res.send(JSON.stringify(agregaProducto(req.body)))
@@ -56,11 +53,14 @@ function agregaProducto(reqBody){
     let freeId=listado.findIndex((e)=>e.title==="Eliminado")
     if(freeId!=-1){
         nuevoProducto.id=freeId;
+        listado[nuevoProducto.id]=nuevoProducto;
     }
     else{
         nuevoProducto.addNextId();
+        listado.push(nuevoProducto);
     }
-    listado[nuevoProducto.id]=nuevoProducto;
-    console.log(`+ ${JSON.stringify(nuevoProducto)}`)
     return nuevoProducto;
+}
+function idEncontrado(reqId){
+    return listado.findIndex((e)=>e.id==reqId);
 }

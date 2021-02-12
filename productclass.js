@@ -1,5 +1,5 @@
 var id=0;
-let producto = class Product{
+let producto=class Product{
     constructor(title,price,thumbnail){
         this.title=title;
         this.price=price;
@@ -9,7 +9,7 @@ let producto = class Product{
         this.id=id++;
         return this;
     }
-    changeProduct(reqId){
+    replaceId(reqId){
         this.id=reqId;
         return this;
     }
