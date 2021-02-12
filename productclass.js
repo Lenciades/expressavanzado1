@@ -5,7 +5,7 @@ let producto = class Product{
         this.price=price;
         this.thumbnail=thumbnail;
     }
-    addProduct(){
+    addNextId(){
         this.id=id++;
         return this;
     }
